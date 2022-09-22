@@ -3,6 +3,8 @@ import Button from '../ui/Button';
 import classes from './EventItem.module.css';
 
 function EventItem(props) {
+  console.log('nothing');
+
   const { title, image, date, location, id } = props;
 
   const humanReadableDate = new Date(date).toLocaleDateString('en-US', {
