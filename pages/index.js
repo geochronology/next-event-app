@@ -12,12 +12,12 @@ function HomePage(props) {
 export async function getStaticProps() {
   const featuredEvents = await getFeaturedEvents();
 
-  console.log('featuredEvents', featuredEvents);
-
   return {
     props: {
       events: featuredEvents,
     },
+    // regenerate page every 30 mins so data doesn't get stale
+    revalidate: 1800,
   };
 }
 

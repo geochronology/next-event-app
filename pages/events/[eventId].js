@@ -1,21 +1,17 @@
 import { Fragment } from 'react';
-import { useRouter } from 'next/router';
-import { getEventById } from '../../dummy-data';
+import { getEventById, getFeaturedEvents } from '../../helpers/api-util';
 import EventSummary from '../../components/event-detail/EventSummary';
 import EventLogistics from '../../components/event-detail/EventLogistics';
 import EventContent from '../../components/event-detail/EventContent';
 
-function EventDetailPage() {
-  const router = useRouter();
-
-  const eventId = router.query.eventId;
-  const event = getEventById(eventId);
+function EventDetailPage(props) {
+  const event = props.selectedEvent;
 
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No event found</p>
-      </ErrorAlert>
+      <div className='center'>
+        <p>Loading...</p>
+      </div>
     );
   }
 
@@ -33,6 +29,30 @@ function EventDetailPage() {
       </EventContent>
     </Fragment>
   );
+}
+
+export async function getStaticProps(context) {
+  const eventId = context.params.eventId;
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      selectedEvent: event,
+    },
+    // regenerate page every 30 secs
+    revalidate: 30,
+  };
+}
+
+export async function getStaticPaths() {
+  // get array of all featured events to pregenerate
+  const events = await getFeaturedEvents();
+  const paths = events.map((event) => ({ params: { eventId: event.id } }));
+
+  // set static paths of events to pre-render;
+  // dynamically generate non-featured event pages;
+  // use 'blocking' to wait until page loads before painting UI
+  return { paths, fallback: 'blocking' };
 }
 
 export default EventDetailPage;
