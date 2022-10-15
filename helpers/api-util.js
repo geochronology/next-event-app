@@ -12,8 +12,6 @@ export async function getAllEvents() {
     });
   }
 
-  console.log(response);
-
   return events;
 }
 
