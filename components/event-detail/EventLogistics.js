@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import AddressIcon from '../icons/address-icon';
 import DateIcon from '../icons/date-icon';
 import LogisticsItem from './LogisticsItem';
@@ -16,7 +17,10 @@ function EventLogistics(props) {
   return (
     <section className={classes.logistics}>
       <div className={classes.image}>
-        <img src={`/${image}`} alt={imageAlt} />
+        {/* NOTE: sizing for Image only determines file size to *fetch*; 
+            final sizing is still determined by CSS
+        */}
+        <Image src={`/${image}`} alt={imageAlt} width={240} height={240} />
       </div>
       <ul className={classes.list}>
         <LogisticsItem icon={DateIcon}>
