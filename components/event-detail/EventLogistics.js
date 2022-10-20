@@ -18,8 +18,7 @@ function EventLogistics(props) {
     <section className={classes.logistics}>
       <div className={classes.image}>
         {/* NOTE: sizing for Image only determines file size to *fetch*; 
-            final sizing is still determined by CSS
-        */}
+            final sizing is still determined by CSS */}
         <Image src={`/${image}`} alt={imageAlt} width={240} height={240} />
       </div>
       <ul className={classes.list}>
